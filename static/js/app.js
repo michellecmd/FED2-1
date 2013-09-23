@@ -35,16 +35,13 @@ var APP = APP || {};
 			APP.router.init();
 		}, 
 		
-		orderArray: function () {
-			var newOrderArray = [];
-			
+		orderArray: function () { //Past beter in de schedule pagina, omdat het alleen die pagina met dat schema betreft
+
 			for(var i = 0; i < APP.schedule.scheduleArray.length; i++) {
-				var score1 = parseFloat(APP.schedule.scheduleArray[i].team1Score),
+				var score1 = parseFloat(APP.schedule.scheduleArray[i].team1Score), //sting omzetten in een float, een float is een getal met een komma erachter
 					score2 = parseFloat(APP.schedule.scheduleArray[i].team2Score);
 					
-				if(score1 > score2) {
-					newOrderArray[i] = APP.schedule.scheduleArray[i];
-				} else if(score1 < score2) {
+				if(score1 < score2) {
 					var tempScore1 = score1,
 						tempScore2 = score2,
 						tempTeam1 = APP.schedule.scheduleArray[i].team1,
@@ -55,14 +52,9 @@ var APP = APP || {};
 					
 					APP.schedule.scheduleArray[i].team1 = tempTeam2;
 					APP.schedule.scheduleArray[i].team2 = tempTeam1;
-					
-					newOrderArray[i] = APP.schedule.scheduleArray[i];
-				} else {
-					newOrderArray[i] = APP.schedule.scheduleArray[i];
+
 				}
 			}
-			
-			APP.schedule.scheduleArray = newOrderArray;
 		}
 	};
 
@@ -80,11 +72,13 @@ var APP = APP || {};
 			    '/ranking': function() {
 			    	APP.page.ranking();
 			    },
-			    '*': function() {
+			    '*': function() { //If geen pagina herkend, automatisch de schedule pagina routen
 			    	APP.page.schedule();
 			    }
 			});
 		},
+		
+		//Kan korter, kijk op site van routie, iets met '/name' ivp per pagina
 
 		change: function () {
             var route = window.location.hash.slice(2),
