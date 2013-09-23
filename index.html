@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Score APP</title>
+	<link href="static/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<header>
+		<h1>Score APP</h1>
+		<nav>
+			<ul>
+				<li><a href="#/schedule">Schedule</a></li>
+				<li><a href="#/game">Game</a></li>
+				<li><a href="#/ranking">Ranking</a></li>
+		    </ul>
+		</nav>
+	</header>
+	
+	<article id="content" class="col">
+		<section data-route="schedule" class="active">
+			 <section data-bind="scheduleArray">
+			    <section>
+			      <h1 data-bind="date"></h1>
+			      <p><label data-bind="team1"></label> (<label data-bind="team1Score"></label>) VS (<label data-bind="team2Score"></label>) <label data-bind="team2"></label></p>
+			    </section>
+			  </section>
+		</section>
+
+		<section data-route="game">
+			<h1 data-bind="title"></h1>
+			<p data-bind="description"></p>
+		</section>
+
+		<section data-route="ranking">
+			<h1 data-bind="title"></h1>
+			<p data-bind="description"></p>
+		</section>
+	</article>
+
+	<!-- Libs -->
+	<script src="static/js/lib/routie.min.js"></script>
+	<script src="static/js/lib/ready.min.js" type="text/javascript"></script>
+	<script src="static/js/lib/qwery.min.js" type="text/javascript"></script>
+	<script src="static/js/lib/transparancy.min.js" type="text/javascript"></script>
+
+	<!-- Application -->
+	<script src="static/js/app.js"></script>
+	
+</body>
+</html>
