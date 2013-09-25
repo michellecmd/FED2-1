@@ -20,22 +20,55 @@
 	
 	<article id="content" class="col">
 		<section data-route="schedule" class="active">
-			 <section data-bind="scheduleArray">
-			    <section>
-			      <h1 data-bind="date"></h1>
-			      <p><label data-bind="team1"></label> (<label data-bind="team1Score"></label>) VS (<label data-bind="team2Score"></label>) <label data-bind="team2"></label></p>
-			    </section>
-			  </section>
+			<table>
+				<th>Team 1</th>
+				<th>&nbsp;</th>
+				<th>&nbsp;</th>
+				<th>&nbsp;</th>
+				<th>Team 2</th>
+				<tbody data-bind="scheduleArray">
+				    <tr>
+				      <td><label data-bind="team1"></label></td>
+				      <td><label data-bind="team1Score"></label></td>
+				      <td> - </td>
+				      <td><label data-bind="team2Score"></label></td>
+				      <td><label data-bind="team2"></label></td>
+				    </tr>
+				</tbody>
+			</table>
 		</section>
 
 		<section data-route="game">
-			<h1 data-bind="title"></h1>
-			<p data-bind="description"></p>
+			<section data-bind="gameArray">
+			    <section>
+			      <p><label data-bind="team1"></label> <label data-bind="team1Score"></label> VS <label data-bind="team2Score"></label> <label data-bind="team2"></label></p>
+			    </section>
+			</section>
 		</section>
 
 		<section data-route="ranking">
-			<h1 data-bind="title"></h1>
-			<p data-bind="description"></p>
+			<table>
+				<thead>
+					<td>Team</td>
+					<td>Wins</td>
+					<td>Lost</td>
+					<td>SW</td>
+					<td>SL</td>
+					<td>PW</td>
+					<td>PL</td>
+				</thead>
+				<tbody data-bind="rankingArray">
+				    <tr>
+				      <td><label data-bind="team"></label></td>
+				      <td><label data-bind="Win"></label></td>
+				      <td><label data-bind="Lost"></label></td>
+				      <td><label data-bind="Sw"></label></td>
+				      <td><label data-bind="Sl"></label></td>
+				      <td><label data-bind="Pw"></label></td>
+				      <td><label data-bind="Pl"></label></td>
+				    </tr>
+				</tbody>
+			</table>
 		</section>
 	</article>
 
