@@ -42,7 +42,7 @@ article > section {
 	display:none;
 }
 
-article > section.active {
+article > section.activePage {
 	display:block;
 }
 

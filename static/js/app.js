@@ -1,7 +1,8 @@
 var APP = APP || {};
 
 (function () {
-	// Data objecten
+	
+	// Schedule pagina data
 	APP.schedule = {
 		scheduleArray: [
 			{ date: "Monday, 9:00am", team1: "Chasing", team1Score: "13", team2: "Amsterdam Money Gang", team2Score: "9"},
@@ -15,6 +16,8 @@ var APP = APP || {};
 			{ date: "Monday, 1:00pm", team1: "Chasing", team1Score: "15", team2: "Boomsquad", team2Score: "14"},
 			{ date: "Monday, 1:00pm", team1: "Burning Snow", team1Score: "15", team2: "Amsterdam Money Gang", team2Score: "11"}
 		],
+
+		// Order functie voor het ordenen van de data, winnaars staan altijd links
 		orderArray: function () {
 
 			for(var i = 0; i < APP.schedule.scheduleArray.length; i++) {
@@ -41,6 +44,7 @@ var APP = APP || {};
 		}
 	};
 
+	// Game pagina data
 	APP.game = {
 		gameArray: [
 		    { score: "1", team1: "Boomsquad", team1Score: "1", team2: "Burning Snow", team2Score: "0"},
@@ -69,6 +73,7 @@ var APP = APP || {};
 		]
 	};
 
+	// Ranking pagina data
 	APP.ranking = {
 		rankingArray: [
 		    { team: "Chasing", Win: "2", Lost: "2", Sw: "7", Sl: "9", Pw: "35", Pl: "39"},
@@ -79,7 +84,7 @@ var APP = APP || {};
 		]
 	};
 	
-	// Controller Init
+	// Controller 
 	APP.controller = {
 		init: function () {
 			// Initialize router
@@ -107,6 +112,7 @@ var APP = APP || {};
 			});
 		},
 
+		// Functie voor het veranderen van pagina zonder nieuwe reload
 		change: function () {
             var route = window.location.hash.slice(2),
                 sections = qwery('section[data-route]'),
@@ -114,13 +120,13 @@ var APP = APP || {};
 
             if (section) {
             	for (var i=0; i < sections.length; i++){
-            		sections[i].classList.remove('active');
+            		sections[i].classList.remove('activePage');
             	}
-            	section.classList.add('active');
+            	section.classList.add('activePage');
             }
 
             if (!route) {
-            	sections[0].classList.add('active');
+            	sections[0].classList.add('activePage');
             }
 
 		}
