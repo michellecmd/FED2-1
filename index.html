@@ -39,24 +39,33 @@
 		</section>
 
 		<section data-route="game">
-			<section data-bind="gameArray">
-			    <section>
-			      <p><label data-bind="team1"></label> <label data-bind="team1Score"></label> VS <label data-bind="team2Score"></label> <label data-bind="team2"></label></p>
-			    </section>
-			</section>
+			<table>
+				<th>Team 1</th>
+				<th>&nbsp;</th>
+				<th>&nbsp;</th>
+				<th>&nbsp;</th>
+				<th>Team 2</th>
+				<tbody data-bind="gameArray">
+				    <tr>
+				      <td><label data-bind="team1"></label></td>
+				      <td><label data-bind="team1Score"></label></td>
+				      <td> - </td>
+				      <td><label data-bind="team2Score"></label></td>
+				      <td><label data-bind="team2"></label></td>
+				    </tr>
+				</tbody>
+			</table>
 		</section>
 
 		<section data-route="ranking">
 			<table>
-				<thead>
-					<td>Team</td>
-					<td>Wins</td>
-					<td>Lost</td>
-					<td>SW</td>
-					<td>SL</td>
-					<td>PW</td>
-					<td>PL</td>
-				</thead>
+				<th>Team</th>
+				<th>Wins</th>
+				<th>Lost</th>
+				<th>SW</th>
+				<th>SL</th>
+				<th>PW</th>
+				<th>PL</th>
 				<tbody data-bind="rankingArray">
 				    <tr>
 				      <td><label data-bind="team"></label></td>
