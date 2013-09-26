@@ -155,6 +155,7 @@ var APP = APP || {};
 	domready(function () {
 		// Initialize de app
 		APP.controller.init();
+		APP.quo.startQuoJS();
 	});
 	
 })();
