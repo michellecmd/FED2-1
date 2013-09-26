@@ -21,11 +21,13 @@
 	<article id="content" class="col">
 		<section data-route="schedule" class="active">
 			<table>
-				<th>Team 1</th>
-				<th>&nbsp;</th>
-				<th>&nbsp;</th>
-				<th>&nbsp;</th>
-				<th>Team 2</th>
+				<thead>
+					<th>Team 1</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+					<th>Team 2</th>
+				</thead>
 				<tbody data-bind="scheduleArray">
 				    <tr>
 				      <td><label data-bind="team1"></label></td>
@@ -40,11 +42,13 @@
 
 		<section data-route="game">
 			<table>
-				<th>Team 1</th>
-				<th>&nbsp;</th>
-				<th>&nbsp;</th>
-				<th>&nbsp;</th>
-				<th>Team 2</th>
+				<thead>
+					<th>Team 1</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+					<th>Team 2</th>
+				</thead>
 				<tbody data-bind="gameArray">
 				    <tr>
 				      <td><label data-bind="team1"></label></td>
@@ -59,13 +63,15 @@
 
 		<section data-route="ranking">
 			<table>
-				<th>Team</th>
-				<th>Wins</th>
-				<th>Lost</th>
-				<th>SW</th>
-				<th>SL</th>
-				<th>PW</th>
-				<th>PL</th>
+				<thead>
+					<th>Team</th>
+					<th>Wins</th>
+					<th>Lost</th>
+					<th>SW</th>
+					<th>SL</th>
+					<th>PW</th>
+					<th>PL</th>
+				</thead>
 				<tbody data-bind="rankingArray">
 				    <tr>
 				      <td><label data-bind="team"></label></td>
@@ -83,14 +89,14 @@
 
 	<!-- Libraries -->
 	<script src="static/js/lib/routie.min.js"></script>
-	<script src="static/js/lib/quo.min.js"></script>
+	<!--<script src="static/js/lib/quo.min.js"></script>-->
 	<script src="static/js/lib/ready.min.js" type="text/javascript"></script>
 	<script src="static/js/lib/qwery.min.js" type="text/javascript"></script>
 	<script src="static/js/lib/transparancy.min.js" type="text/javascript"></script>
 
 	<!-- Applicatie -->
 	<script src="static/js/app.js"></script>
-	<script src="static/js/quo.js"></script>
+	<!--<script src="static/js/quo.js"></script>-->
 	
 </body>
 </html>

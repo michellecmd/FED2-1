@@ -95,20 +95,8 @@ var APP = APP || {};
 	// Router
 	APP.router = {
 		init: function () {
-	  		routie({
-			    '/schedule': function() {
-			    	APP.page.schedule();
-				},
-			    '/game': function() {
-			    	APP.page.game();
-			    },
-
-			    '/ranking': function() {
-			    	APP.page.ranking();
-			    },
-			    '*': function() {
-			    	APP.page.schedule();
-			    }
+			routie('/:name', function(name) {
+			    APP.page.render(name);
 			});
 		},
 
@@ -134,19 +122,9 @@ var APP = APP || {};
 
 	// Verschillende pagina's in object
 	APP.page = {
-		schedule: function () {
-			APP.schedule.orderArray();
-			Transparency.render(qwery('[data-route=schedule')[0], APP.schedule);
-			APP.router.change();
-		},
-
-		game: function () {
-			Transparency.render(qwery('[data-route=game')[0], APP.game);
-			APP.router.change();
-		},
-
-		ranking: function () {
-			Transparency.render(qwery('[data-route=ranking')[0], APP.ranking);
+		render: function (route) {
+			var data = APP[route];
+			Transparency.render(qwery('[data-route='+ route +'')[0], data);
 			APP.router.change();
 		}
 	}
@@ -154,8 +132,8 @@ var APP = APP || {};
 	// DOM ready
 	domready(function () {
 		// Initialize de app
+		APP.schedule.orderArray();
 		APP.controller.init();
-		APP.quo.startQuoJS();
 	});
 	
 })();
