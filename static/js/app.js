@@ -1,6 +1,7 @@
 var APP = APP || {};
 
 (function () {
+	"use strict";
 	
 	// Schedule pagina data
 	APP.schedule = {
@@ -83,12 +84,41 @@ var APP = APP || {};
 		    { team: "Amsterdam Money Gang", Win: "1", Lost: "3", Sw: "6", Sl: "10", Pw: "30", Pl: "37"}
 		]
 	};
+
+	// Film pagina data
+	APP.movies = {
+		details: "Bored? Watch a movie!",
+		moviesArray: []
+	};
 	
 	// Controller 
 	APP.controller = {
 		init: function () {
 			// Initialize router
 			APP.router.init();
+
+			// Order de array
+			APP.schedule.orderArray();
+
+			// Request movies
+			APP.controller.getMoviesArray();
+		},
+
+		getMoviesArray: function () {
+			
+			promise.get('http://dennistel.nl/movies').then(function(error, text, xhr) {
+			    if (error) {
+			      console.log('Error ' + xhr.status);
+			      return;
+			    }
+
+			    APP.movies = JSON.parse(text);
+
+			    Transparency.render(qwery('[data-route=movies')[0], APP.movies);
+			    console.log('The page contains ' + text.length + ' character(s).');
+			    console.log(text)
+			});
+
 		}
 	};
 
@@ -120,7 +150,7 @@ var APP = APP || {};
 		}
 	};
 
-	// Verschillende pagina's in object
+	// Verschillende pagina's renderen
 	APP.page = {
 		render: function (route) {
 			var data = APP[route];
@@ -132,7 +162,6 @@ var APP = APP || {};
 	// DOM ready
 	domready(function () {
 		// Initialize de app
-		APP.schedule.orderArray();
 		APP.controller.init();
 	});
 	

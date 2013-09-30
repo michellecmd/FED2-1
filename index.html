@@ -14,27 +14,24 @@
 				<li><a href="#/schedule">Schedule</a></li>
 				<li><a href="#/game">Game</a></li>
 				<li><a href="#/ranking">Ranking</a></li>
+				<li><a href="#/movies">Movies</a></li>
 		    </ul>
 		</nav>
 	</header>
 	
 	<article id="content" class="col">
-		<section data-route="schedule" class="active">
+		<section data-route="teams" class="active">
 			<table>
 				<thead>
-					<th>Team 1</th>
-					<th>&nbsp;</th>
-					<th>&nbsp;</th>
-					<th>&nbsp;</th>
-					<th>Team 2</th>
+					<th>Name</th>
+					<th>Seed</th>
+					<th>Link</th>
 				</thead>
-				<tbody data-bind="scheduleArray">
+				<tbody data-bind="teamsArray">
 				    <tr>
-				      <td><label data-bind="team1"></label></td>
-				      <td><label data-bind="team1Score"></label></td>
-				      <td> - </td>
-				      <td><label data-bind="team2Score"></label></td>
-				      <td><label data-bind="team2"></label></td>
+				      <td><label data-bind="name"></label></td>
+				      <td><label data-bind="seed"></label></td>
+				      <td><label data-bind="link"></label></td>
 				    </tr>
 				</tbody>
 			</table>
@@ -85,18 +82,32 @@
 				</tbody>
 			</table>
 		</section>
+
+		<!-- <section data-route="movies">
+			<h1 data-bind="details"></h1>
+
+			<table>
+				<thead>
+				</thead>
+				<tbody data-bind="rankingArray">
+				    <tr>
+				      <td><label data-bind="id"></label></td>
+				      <td><label data-bind="title"></label></td>
+				    </tr>
+				</tbody>
+			</table>
+		</section> -->
 	</article>
 
 	<!-- Libraries -->
 	<script src="static/js/lib/routie.min.js"></script>
-	<!--<script src="static/js/lib/quo.min.js"></script>-->
+	<script src="static/js/lib/promise.min.js"></script>
 	<script src="static/js/lib/ready.min.js" type="text/javascript"></script>
 	<script src="static/js/lib/qwery.min.js" type="text/javascript"></script>
 	<script src="static/js/lib/transparancy.min.js" type="text/javascript"></script>
 
 	<!-- Applicatie -->
 	<script src="static/js/app.js"></script>
-	<!--<script src="static/js/quo.js"></script>-->
 	
 </body>
 </html>
