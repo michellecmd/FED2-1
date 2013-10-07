@@ -11,10 +11,8 @@
 		<h1>Score APP</h1>
 		<nav>
 			<ul>
-				<li><a href="#/schedule">Schedule</a></li>
-				<li><a href="#/game">Game</a></li>
-				<li><a href="#/ranking">Ranking</a></li>
-				<li><a href="#/movies">Movies</a></li>
+				<li><a href="#/teams">Teams</a></li>
+				<li><a href="#/pools">Pools</a></li>
 		    </ul>
 		</nav>
 	</header>
@@ -23,85 +21,42 @@
 		<section data-route="teams" class="active">
 			<table>
 				<thead>
+					<th>ID</th>
 					<th>Name</th>
 					<th>Seed</th>
-					<th>Link</th>
 				</thead>
 				<tbody data-bind="teamsArray">
 				    <tr>
-				      <td><label data-bind="name"></label></td>
-				      <td><label data-bind="seed"></label></td>
-				      <td><label data-bind="link"></label></td>
-				    </tr>
-				</tbody>
-			</table>
-		</section>
-
-		<section data-route="game">
-			<table>
-				<thead>
-					<th>Team 1</th>
-					<th>&nbsp;</th>
-					<th>&nbsp;</th>
-					<th>&nbsp;</th>
-					<th>Team 2</th>
-				</thead>
-				<tbody data-bind="gameArray">
-				    <tr>
-				      <td><label data-bind="team1"></label></td>
-				      <td><label data-bind="team1Score"></label></td>
-				      <td> - </td>
-				      <td><label data-bind="team2Score"></label></td>
-				      <td><label data-bind="team2"></label></td>
-				    </tr>
-				</tbody>
-			</table>
-		</section>
-
-		<section data-route="ranking">
-			<table>
-				<thead>
-					<th>Team</th>
-					<th>Wins</th>
-					<th>Lost</th>
-					<th>SW</th>
-					<th>SL</th>
-					<th>PW</th>
-					<th>PL</th>
-				</thead>
-				<tbody data-bind="rankingArray">
-				    <tr>
-				      <td><label data-bind="team"></label></td>
-				      <td><label data-bind="Win"></label></td>
-				      <td><label data-bind="Lost"></label></td>
-				      <td><label data-bind="Sw"></label></td>
-				      <td><label data-bind="Sl"></label></td>
-				      <td><label data-bind="Pw"></label></td>
-				      <td><label data-bind="Pl"></label></td>
-				    </tr>
-				</tbody>
-			</table>
-		</section>
-
-		<!-- <section data-route="movies">
-			<h1 data-bind="details"></h1>
-
-			<table>
-				<thead>
-				</thead>
-				<tbody data-bind="rankingArray">
-				    <tr>
 				      <td><label data-bind="id"></label></td>
-				      <td><label data-bind="title"></label></td>
+				      <td><label data-bind="name"></label></td>
+				      <td>[<label data-bind="seed"></label>]</td>
 				    </tr>
 				</tbody>
 			</table>
-		</section> -->
+
+			<a href="javascript:void(0);" onclick="APP.teams.nextPage();">Next page</a>
+			<a href="javascript:void(0);" onclick="APP.teams.previousPage();">Previous page</a>
+		</section>
+
+
+		<section data-route="pools">
+			<table>
+				<thead>
+					<th>Name</th>
+				</thead>
+				<tbody data-bind="poolsArray">
+				    <tr>
+				      <td><label data-bind="name"></label></td>
+				    </tr>
+				</tbody>
+			</table>
+		</section>
 	</article>
 
 	<!-- Libraries -->
 	<script src="static/js/lib/routie.min.js"></script>
 	<script src="static/js/lib/promise.min.js"></script>
+	<!-- <script src="static/js/lib/infinity.min.js"></script> -->
 	<script src="static/js/lib/ready.min.js" type="text/javascript"></script>
 	<script src="static/js/lib/qwery.min.js" type="text/javascript"></script>
 	<script src="static/js/lib/transparancy.min.js" type="text/javascript"></script>
