@@ -6,6 +6,49 @@ var APP = APP || {};
 	APP.settings = {
 		networkPath: "https://api.leaguevine.com/v1/"
 	};
+
+	APP.utils = {
+		dateFormat: function(dateToChange) {
+			console.log(dateToChange);
+			var year = dateToChange.substring(0, 4),
+				month = dateToChange.substring(5, 7),
+				day = dateToChange.substring(8, 10),
+				hour = dateToChange.substring(11, 13),
+				minutes = dateToChange.substring(14, 16);
+
+			return day + "-" + month + "-" + year + " " + hour + ":" + minutes;
+		}
+	}
+
+	APP.spinner = {
+		object: document.getElementById('spinner'),
+		show: function () {
+			this.object.className = "spinner";
+		},
+		hide: function () {
+			this.object.className = "nospin";
+		}
+	};
+
+	APP.error = {
+		object: document.getElementById('error'),
+		show: function (text) {
+			this.object.className = "error";
+			this.object.innerHTML = text;
+
+			APP.spinner.hide();
+
+			var self = this;
+
+			setTimeout(function () {
+				self.hide();
+			}, 3000);
+		},
+		hide: function () {
+			this.object.className = "noerror";
+			this.object.innerHTML = " ";
+		}
+	};
 	
 	// Schedule pagina data
 	APP.teams = {
@@ -14,6 +57,7 @@ var APP = APP || {};
 		limit: 5,
 
 		getTeamsFromLeagueVine: function (page) {
+			APP.spinner.show();
 			var self = this;
 
 			var offset = page * this.limit;
@@ -23,7 +67,7 @@ var APP = APP || {};
 			
 			promise.get(httpLink).then(function(error, text, xhr) {
 			    if (error) {
-			      console.log('Error ' + xhr.status);
+			      APP.error.show('Error: ' + xhr.status);
 			      return;
 			    }
 
@@ -31,15 +75,16 @@ var APP = APP || {};
 
 			    var data = JSON.parse(text);
 
-			    for(var i = 0; i < data.objects.length; i++) {
-			    	APP.teams.teamsArray[i] = {
-			    		id: data.objects[i].team_id,
-			    		name: data.objects[i].team.name,
-			    		seed: data.objects[i].seed,
-			    	};
-			    }
+				for(var i = 0; i < data.objects.length; i++) {
+					APP.teams.teamsArray[i] = {
+						id: data.objects[i].team_id,
+						name: data.objects[i].team.name,
+						seed: data.objects[i].seed,
+					};
+				}
 
 			    APP.page.render("teams");
+			    APP.spinner.hide();
 			});
 		},
 
@@ -62,11 +107,12 @@ var APP = APP || {};
 		poolsArray: [],
 
 		getPoolsFromLeagueVine: function () {
+			APP.spinner.show();
 			var self = this;
 			
 			promise.get(APP.settings.networkPath + 'pools/?tournament_id=19389&order_by=%5Bname%5D&access_token=6dd70849a7').then(function(error, text, xhr) {
 			    if (error) {
-			      console.log('Error ' + xhr.status);
+			      APP.error.show('Error: ' + xhr.status);
 			      return;
 			    }
 
@@ -76,15 +122,113 @@ var APP = APP || {};
 
 			    for(var i = 0; i < data.objects.length; i++) {
 			    	self.poolsArray[i] = {
-			    		name: data.objects[i].name
+			    		name: "Pool " + data.objects[i].name,
+			    		id: data.objects[i].id
 			    	};
+
+			    	self.poolsArray[i].teams = [];
+
+			    	for(var y = 0; y < data.objects[i].standings.length; y++) {
+			    		self.poolsArray[i].teams[y] = {
+			    			name: data.objects[i].standings[y].team.name,
+			    			wins: data.objects[i].standings[y].wins,
+			    			losses: data.objects[i].standings[y].losses,
+			    			points_scored: data.objects[i].standings[y].points_scored,
+			    			points_allowed: data.objects[i].standings[y].points_allowed,
+			    			plus_minus: data.objects[i].standings[y].plus_minus
+			    		};
+			    	}
+					
+					self.poolsArray[i].teams.sort(function(a,b) {
+						return a.wins + b.wins;
+					});
+
 			    }
 
 			    APP.page.render("pools");
+			    APP.spinner.hide();
 			});
 		}
 
+		/*directives: [{
+			link: {
+				href: function(params) {
+					return this.id;
+				}
+			}
+		}]*/
 	};
+
+	APP.poolsMatches = {
+
+		poolsMatchesArray: [],
+
+		getPoolsMatchesFromLeagueVine: function (poolID) {
+
+			APP.spinner.show();
+			var self = this;
+			
+			promise.get(APP.settings.networkPath + 'games/?tournament_id=19389&pool_id=' + poolID + '&access_token=578aa0b8aa').then(function(error, text, xhr) {
+			    if (error) {
+			      APP.error.show('Error: ' + xhr.status);
+			      return;
+			    }
+
+			    self.poolsMatchesArray = [];
+
+			    var data = JSON.parse(text);
+
+			    for(var i = 0; i < data.objects.length; i++) {
+			    	self.poolsMatchesArray[i] = {
+			    		team1: data.objects[i].team_1.name,
+			    		team2: data.objects[i].team_2.name,
+			    		team1Score: data.objects[i].team_1_score,
+			    		team2Score: data.objects[i].team_2_score,
+			    		startTime: APP.utils.dateFormat(data.objects[i].start_time)
+			    	};
+			    }
+
+			    console.log(data);
+
+			    APP.page.render("poolsMatches");
+			    APP.spinner.hide();
+			});
+
+		}
+	}
+
+	APP.match = {
+		matchDetails: [],
+
+		getMatchFromLeagueVine: function (matchID) {
+			APP.spinner.show();
+			var self = this;
+			
+			promise.get(APP.settings.networkPath + 'game_scores/?game_id=' + matchID + '&order_by=%5B\'id\'%5D&access_token=578aa0b8aa').then(function(error, text, xhr) {
+			    if (error) {
+			      APP.error.show('Error: ' + xhr.status);
+			      return;
+			    }
+
+			    self.matchDetails = [];
+
+			    var data = JSON.parse(text);
+
+			    console.log(data);
+
+			    for(var i = 0; i < data.objects.length; i++) {
+			    	self.matchDetails[i] = {
+			    		team1Score: data.objects[i].team_1_score,
+			    		team2Score: data.objects[i].team_2_score
+				    }
+			    }
+			    
+
+			    APP.page.render("match");
+			    APP.spinner.hide();
+			});
+		}
+	}
 	
 	// Controller 
 	APP.controller = {
@@ -102,12 +246,12 @@ var APP = APP || {};
 			});*/
 
 			routie({
-			    '/teams': function() {
-			    	APP.teams.getTeamsFromLeagueVine(0);
-			    	APP.page.render("teams");
-			    },
+			    // '*': function() {
+			    // 	APP.teams.getTeamsFromLeagueVine(0);
+			    // 	APP.page.render("teams");
+			    // },
 
-			    '*': function() {
+			    '/teams': function() {
 			    	APP.teams.getTeamsFromLeagueVine(0);
 			    	APP.page.render("teams");
 			    },
@@ -121,26 +265,38 @@ var APP = APP || {};
 			    '/pools': function() {
 			    	APP.pools.getPoolsFromLeagueVine();
 			    	APP.page.render("pools");
+			    },
+
+
+			    '/poolsMatches/:pool': function(pool) {
+			    	APP.poolsMatches.getPoolsMatchesFromLeagueVine(pool);
+			    	APP.page.render("poolsMatches");
+			    },
+
+
+			    '/match/:matchID': function(matchID) {
+			    	APP.match.getMatchFromLeagueVine(matchID);
+			    	APP.page.render("match");
 			    }
 			});
 		},
 
 		// Functie voor het veranderen van pagina zonder nieuwe reload
 		change: function () {
-            var route = window.location.hash.slice(2),
-                sections = qwery('section[data-route]'),
-                section = qwery('[data-route=' + route + ']')[0];  
+            
+            var sections = qwery('section[data-route]'),
+            	route 	 = window.location.hash.slice(2);
+        	
+        	for(var i = 0; i < sections.length; i++) {
+        		sections[i].classList.remove('activePage');
+        	}
+			
+			if(route.search("/") != -1)
+				route = route.substring(0, route.search("/"));
+        	
+        	var sectionToChange = qwery('[data-route=' + route + ']')[0];
 
-            if (section) {
-            	for (var i=0; i < sections.length; i++){
-            		sections[i].classList.remove('activePage');
-            	}
-            	section.classList.add('activePage');
-            }
-
-            if (!route) {
-            	sections[0].classList.add('activePage');
-            }
+        	sectionToChange.classList.add('activePage');
 
 		}
 	};
@@ -149,7 +305,20 @@ var APP = APP || {};
 	APP.page = {
 		render: function (route) {
 			var data = APP[route];
-			Transparency.render(qwery('[data-route='+ route +'')[0], data);
+
+			/*var directives = APP[route].directives;
+			*/console.log(data);
+
+			var directives = {
+				poolsArray: {
+					link: {
+						href: function(params) {
+							return "#/poolsMatches/" + this.id;
+						}
+					}
+				}
+			};
+			Transparency.render(qwery('[data-route='+ route +'')[0], data, directives);
 			APP.router.change();
 		}
 	}

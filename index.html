@@ -5,20 +5,23 @@
 
 	<title>Score APP</title>
 	<link href="static/css/style.css" rel="stylesheet" type="text/css" />
+	<link href="http://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" type="text/css">
 </head>
 <body>
+	<div id="spinner" class="spinner"></div>
+	<div id="error" class="noerror"></div>
+
 	<header>
-		<h1>Score APP</h1>
+		<h1>Autumn 2013</h1>
 		<nav>
 			<ul>
-				<li><a href="#/teams">Teams</a></li>
 				<li><a href="#/pools">Pools</a></li>
 		    </ul>
 		</nav>
 	</header>
 	
 	<article id="content" class="col">
-		<section data-route="teams" class="active">
+		<section data-route="teams">
 			<table>
 				<thead>
 					<th>ID</th>
@@ -39,15 +42,70 @@
 		</section>
 
 
-		<section data-route="pools">
+		<section class="pools" data-route="pools">
+			<section data-bind="poolsArray">
+				<a data-bind="link"><h1 data-bind="name"></h1></a>
+
+				<section>
+					<table>
+						<tbody data-bind="teams">
+							<tr>
+								<td>
+									<label data-bind="name"></label>
+								</td>
+								<td>
+									<label data-bind="wins"></label>
+								</td>
+								<td>
+									<label data-bind="losses"></label>
+								</td>
+								<td>
+									<label data-bind="points_scored"></label>
+								</td>
+								<td>
+									<label data-bind="points_allowed"></label>
+								</td>
+								<td>
+									<label data-bind="plus_minus"></label>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+			</section>
+		</section>
+
+		<section class="matches" data-route="poolsMatches">
+			<h1>Matches in Pool</h1>
 			<table>
-				<thead>
-					<th>Name</th>
-				</thead>
-				<tbody data-bind="poolsArray">
-				    <tr>
-				      <td><label data-bind="name"></label></td>
-				    </tr>
+				<tbody data-bind="poolsMatchesArray">
+					<tr>
+						<td>
+							<label data-bind="startTime"></label>
+						</td>
+						<td>
+							<label data-bind="team1"></label>
+						</td>
+						<td>
+							<label data-bind="team1Score"></label> - <label data-bind="team2Score"></label>
+						</td>
+						<td>
+							<label data-bind="team2"></label>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<section class="match" data-route="match">
+			<h1>Match</h1>
+			<table>
+				<tbody data-bind="matchDetails">
+					<tr>
+						<td>
+							<label data-bind="team1Score"></label> - <label data-bind="team2Score"></label>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</section>
