@@ -12,25 +12,24 @@
 	<div id="error" class="noerror"></div>
 
 	<header>
-		<h1>Autumn 2013</h1>
+		<img src="https://d2vrmkp7lb6jlo.cloudfront.net/v2/img/leaguevine_logo_beta_146x30.png" /><h1>Autumn 2013</h1>
 		<nav>
 			<ul>
+				<li><a href="#/teams">Teams</a></li>
 				<li><a href="#/pools">Pools</a></li>
 		    </ul>
 		</nav>
 	</header>
 	
 	<article id="content" class="col">
-		<section data-route="teams">
+		<section class="teams" data-route="teams">
 			<table>
 				<thead>
-					<th>ID</th>
 					<th>Name</th>
 					<th>Seed</th>
 				</thead>
 				<tbody data-bind="teamsArray">
 				    <tr>
-				      <td><label data-bind="id"></label></td>
 				      <td><label data-bind="name"></label></td>
 				      <td>[<label data-bind="seed"></label>]</td>
 				    </tr>

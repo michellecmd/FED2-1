@@ -168,7 +168,7 @@ var APP = APP || {};
 			APP.spinner.show();
 			var self = this;
 			
-			promise.get(APP.settings.networkPath + 'games/?tournament_id=19389&pool_id=' + poolID + '&access_token=578aa0b8aa').then(function(error, text, xhr) {
+			promise.get(APP.settings.networkPath + 'games/?tournament_id=19389&pool_id=' + poolID + '&order_by=%5Bstart_time%5D&access_token=578aa0b8aa').then(function(error, text, xhr) {
 			    if (error) {
 			      APP.error.show('Error: ' + xhr.status);
 			      return;
@@ -270,7 +270,7 @@ var APP = APP || {};
 
 			    '/poolsMatches/:pool': function(pool) {
 			    	APP.poolsMatches.getPoolsMatchesFromLeagueVine(pool);
-			    	APP.page.render("poolsMatches");
+			    	//APP.page.render("poolsMatches");
 			    },
 
 
