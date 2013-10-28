@@ -27,7 +27,7 @@ var APP = APP || {};
 				this.object.className = "nospin";
 			} 
 		},
-
+		
 		error: {
 			object: document.getElementById('error'),
 			show: function (text) {
