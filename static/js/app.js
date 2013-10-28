@@ -1,5 +1,7 @@
 var APP = APP || {};
 
+/* I am awesome! */
+
 (function () {
 	"use strict";
 
