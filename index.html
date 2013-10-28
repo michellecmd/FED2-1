@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=false;">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 	<title>Score APP</title>
 	<link href="static/css/style.css" rel="stylesheet" type="text/css" />
@@ -36,8 +39,8 @@
 				</tbody>
 			</table>
 
-			<a href="javascript:void(0);" onclick="APP.teams.nextPage();">Next page</a>
-			<a href="javascript:void(0);" onclick="APP.teams.previousPage();">Previous page</a>
+			<a href="javascript:void(0);" onclick="APP.teams.previousPage();">&laquo; Previous page</a>
+			<a href="javascript:void(0);" onclick="APP.teams.nextPage();">Next page &raquo;</a>
 		</section>
 
 
@@ -86,10 +89,13 @@
 							<label data-bind="team1"></label>
 						</td>
 						<td>
-							<label data-bind="team1Score"></label> - <label data-bind="team2Score"></label>
+							<!--<a data-bind="link" href="#/match/">--><label data-bind="team1Score"></label> - <label data-bind="team2Score"></label><!--</a>-->
 						</td>
 						<td>
 							<label data-bind="team2"></label>
+						</td>
+						<td>
+							<a data-bind="link" href="#/match/">Update score</a>
 						</td>
 					</tr>
 				</tbody>
@@ -98,15 +104,19 @@
 
 		<section class="match" data-route="match">
 			<h1>Match</h1>
-			<table>
-				<tbody data-bind="matchDetails">
-					<tr>
-						<td>
-							<label data-bind="team1Score"></label> - <label data-bind="team2Score"></label>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<form method="POST" data-bind="matchDetails">
+				<ul>
+					<li>
+						<label>Score team 1: </label><input type="number" data-bind="team1_score" name="team1_score" id="team1_score" min="1" max="15" />
+					</li>
+					<li>
+						<label>Score team 2: </label><input type="number" data-bind="team2_score" name="team2_score" id="team2_score" min="1" max="15" />
+					</li>
+					<li>
+						<a class="button" href="javascript:void(0);" onclick="APP.match.saveMatch();">Save</a>
+					</li>
+				</ul>
+			</form>
 		</section>
 	</article>
 

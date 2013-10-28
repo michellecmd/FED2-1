@@ -9,7 +9,6 @@ var APP = APP || {};
 
 	APP.utils = {
 		dateFormat: function(dateToChange) {
-			console.log(dateToChange);
 			var year = dateToChange.substring(0, 4),
 				month = dateToChange.substring(5, 7),
 				day = dateToChange.substring(8, 10),
@@ -17,10 +16,40 @@ var APP = APP || {};
 				minutes = dateToChange.substring(14, 16);
 
 			return day + "-" + month + "-" + year + " " + hour + ":" + minutes;
+		},
+
+		spinner: {
+			object: document.getElementById('spinner'),
+			show: function () {
+				this.object.className = "spinner";
+			},
+			hide: function () {
+				this.object.className = "nospin";
+			} 
+		},
+
+		error: {
+			object: document.getElementById('error'),
+			show: function (text) {
+				this.object.className = "error";
+				this.object.innerHTML = text;
+
+				APP.utils.spinner.hide();
+
+				var self = this;
+
+				setTimeout(function () {
+					self.hide();
+				}, 3000);
+			},
+			hide: function () {
+				this.object.className = "noerror";
+				this.object.innerHTML = " ";
+			}
 		}
 	}
 
-	APP.spinner = {
+	/*APP.spinner = {
 		object: document.getElementById('spinner'),
 		show: function () {
 			this.object.className = "spinner";
@@ -28,9 +57,9 @@ var APP = APP || {};
 		hide: function () {
 			this.object.className = "nospin";
 		}
-	};
+	};*/
 
-	APP.error = {
+	/*APP.error = {
 		object: document.getElementById('error'),
 		show: function (text) {
 			this.object.className = "error";
@@ -48,7 +77,7 @@ var APP = APP || {};
 			this.object.className = "noerror";
 			this.object.innerHTML = " ";
 		}
-	};
+	};*/
 	
 	// Schedule pagina data
 	APP.teams = {
@@ -57,7 +86,7 @@ var APP = APP || {};
 		limit: 5,
 
 		getTeamsFromLeagueVine: function (page) {
-			APP.spinner.show();
+			APP.utils.spinner.show();
 			var self = this;
 
 			var offset = page * this.limit;
@@ -67,7 +96,7 @@ var APP = APP || {};
 			
 			promise.get(httpLink).then(function(error, text, xhr) {
 			    if (error) {
-			      APP.error.show('Error: ' + xhr.status);
+			      APP.utils.error.show('Error: ' + xhr.status);
 			      return;
 			    }
 
@@ -84,7 +113,7 @@ var APP = APP || {};
 				}
 
 			    APP.page.render("teams");
-			    APP.spinner.hide();
+			    APP.utils.spinner.hide();
 			});
 		},
 
@@ -107,12 +136,12 @@ var APP = APP || {};
 		poolsArray: [],
 
 		getPoolsFromLeagueVine: function () {
-			APP.spinner.show();
+			APP.utils.spinner.show();
 			var self = this;
 			
 			promise.get(APP.settings.networkPath + 'pools/?tournament_id=19389&order_by=%5Bname%5D&access_token=6dd70849a7').then(function(error, text, xhr) {
 			    if (error) {
-			      APP.error.show('Error: ' + xhr.status);
+			      APP.utils.error.show('Error: ' + xhr.status);
 			      return;
 			    }
 
@@ -146,7 +175,7 @@ var APP = APP || {};
 			    }
 
 			    APP.page.render("pools");
-			    APP.spinner.hide();
+			    APP.utils.spinner.hide();
 			});
 		}
 
@@ -165,21 +194,23 @@ var APP = APP || {};
 
 		getPoolsMatchesFromLeagueVine: function (poolID) {
 
-			APP.spinner.show();
+			APP.utils.spinner.show();
 			var self = this;
 			
 			promise.get(APP.settings.networkPath + 'games/?tournament_id=19389&pool_id=' + poolID + '&order_by=%5Bstart_time%5D&access_token=578aa0b8aa').then(function(error, text, xhr) {
 			    if (error) {
-			      APP.error.show('Error: ' + xhr.status);
+			      APP.utils.error.show('Error: ' + xhr.status);
 			      return;
 			    }
 
 			    self.poolsMatchesArray = [];
 
 			    var data = JSON.parse(text);
+			    console.log(data);
 
 			    for(var i = 0; i < data.objects.length; i++) {
 			    	self.poolsMatchesArray[i] = {
+			    		id: data.objects[i].id,
 			    		team1: data.objects[i].team_1.name,
 			    		team2: data.objects[i].team_2.name,
 			    		team1Score: data.objects[i].team_1_score,
@@ -188,20 +219,17 @@ var APP = APP || {};
 			    	};
 			    }
 
-			    console.log(data);
-
 			    APP.page.render("poolsMatches");
-			    APP.spinner.hide();
+			    APP.utils.spinner.hide();
 			});
 
 		}
-	}
+	};
 
 	APP.match = {
-		matchDetails: [],
 
-		getMatchFromLeagueVine: function (matchID) {
-			APP.spinner.show();
+		getMatchScore: function (matchID) {
+			APP.utils.spinner.show();
 			var self = this;
 			
 			promise.get(APP.settings.networkPath + 'game_scores/?game_id=' + matchID + '&order_by=%5B\'id\'%5D&access_token=578aa0b8aa').then(function(error, text, xhr) {
@@ -214,21 +242,29 @@ var APP = APP || {};
 
 			    var data = JSON.parse(text);
 
-			    console.log(data);
+			    var length = data.objects.length-1;
 
-			    for(var i = 0; i < data.objects.length; i++) {
-			    	self.matchDetails[i] = {
-			    		team1Score: data.objects[i].team_1_score,
-			    		team2Score: data.objects[i].team_2_score
-				    }
-			    }
+			    self.matchDetails = {
+		    		team1Score: data.objects[length].team_1_score,
+		    		team2Score: data.objects[length].team_2_score
+			    };
 			    
 
 			    APP.page.render("match");
-			    APP.spinner.hide();
+			    APP.utils.spinner.hide();
 			});
+		},
+
+		saveMatch: function () {
+			var score1 = document.getElementById('team1_score').value;
+			var score2 = document.getElementById('team2_score').value;
+
+			
+
+			APP.utils.error.show("1: " + score1 + "<br />2: " + score2);
 		}
-	}
+
+	};
 	
 	// Controller 
 	APP.controller = {
@@ -275,7 +311,7 @@ var APP = APP || {};
 
 
 			    '/match/:matchID': function(matchID) {
-			    	APP.match.getMatchFromLeagueVine(matchID);
+			    	APP.match.getMatchScore(matchID);
 			    	APP.page.render("match");
 			    }
 			});
@@ -306,14 +342,32 @@ var APP = APP || {};
 		render: function (route) {
 			var data = APP[route];
 
-			/*var directives = APP[route].directives;
-			*/console.log(data);
-
 			var directives = {
 				poolsArray: {
 					link: {
 						href: function(params) {
 							return "#/poolsMatches/" + this.id;
+						}
+					}
+				},
+
+				poolsMatchesArray: {
+					link: {
+						href: function(params) {
+							return "#/match/" + this.id;
+						}
+					}
+				},
+
+				matchDetails: {
+					team1_score: {
+						value: function(params) {
+							return this.team1Score;
+						}
+					},
+					team2_score: {
+						value: function(params) {
+							return this.team2Score;
 						}
 					}
 				}

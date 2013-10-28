@@ -93,6 +93,15 @@ article > section > section > a:first-of-type > h1 {
 
 
 /* TEAMS */
+section.teams a {
+	color: #01a9ea;
+	text-decoration: none;
+}
+
+section.teams a:last-of-type {
+	float: right;
+}
+
 section.teams table {
 	width: 100%;
 }
@@ -129,11 +138,15 @@ section.pools td:first-of-type {
 /* MATCHES */
 section.matches table {
 	width: 100%;
+	border-spacing:0;
+    border-collapse:collapse;
 }
 
 section.matches td {
 	text-align: left;
+	border-bottom: 1px solid #fff;
 }
+
 section.matches td:first-of-type {
 	width: 180px;
 }
@@ -149,6 +162,46 @@ section.matches td:nth-of-type(3) {
 
 section.matches td:nth-of-type(4) {
 	text-align: left;
+}
+
+section.matches td a {
+	color: #01a9ea;
+	text-decoration: none;
+}
+
+section.matches td:last-of-type {
+	text-align: right;
+	width: 180px;
+}
+
+section.matches tr:last-of-type > td {
+	border-bottom: none;
+}
+
+
+/* MATCH */
+section.match ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+section.match ul > li {
+	padding: 0 0 10px 0;
+}
+
+section.match ul > li > label {
+	display: inline-block;
+	width: 100px;
+}
+
+section.match a.button {
+	display: inline-block;
+	padding: 10px 20px;
+	margin: 3px;
+	text-decoration: none;
+	color: #e6e6e7;
+	background-color: #01a9ea;
 }
 
 
@@ -174,18 +227,6 @@ section.matches td:nth-of-type(4) {
 	color: #000;
 	padding: 30px;
 }
-
-
-
-
-@media only screen 
-and (min-device-width : 320px) 
-and (max-device-width : 480px) {
-	body {
-		font-size: 12px;
-	}
-}
-
 
 /* SPINNER */
 .spinner {
@@ -218,6 +259,7 @@ and (max-device-width : 480px) {
    border-radius:100%;
 }
 
+
 @-webkit-keyframes rotation {
    from {-webkit-transform: rotate(0deg);}
    to {-webkit-transform: rotate(359deg);}
@@ -233,5 +275,29 @@ and (max-device-width : 480px) {
 @keyframes rotation {
    from {transform: rotate(0deg);}
    to {transform: rotate(359deg);}
+}
 
 
+
+
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+	body {
+		font-size: 12px;
+	}
+
+	header > img {
+		display: block;
+	}
+
+	header > h1 {
+		display: block;
+		padding: 40px 0 0 0;
+		margin: 0;
+	}
+
+	.spinner {
+		left: 130px;
+	}
+}
